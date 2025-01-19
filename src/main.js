@@ -37,6 +37,8 @@ const onSearchFormSubmit = async event => {
 		loadMoreBtnEl.classList.add('is-hidden');
 
 		endMessageEl.classList.add('is-hidden');
+		
+		galleryEl.innerHTML = '';
 
 		loaderEl.classList.remove('is-hidden');
 
@@ -86,6 +88,9 @@ const onLoadMoreBtnClick = async event => {
 	try {
 		page++;
 
+		loadMoreBtnEl.classList.add('is-hidden');
+		loaderEl.classList.remove('is-hidden');
+
 		const response = await fetchImagesByQuery(inputValue, page);
 
 		galleryEl.insertAdjacentHTML('beforeend', createGalleryCardTemplate(response.data.hits));
@@ -103,7 +108,11 @@ const onLoadMoreBtnClick = async event => {
 			endMessageEl.classList.remove('is-hidden');
 
 			loadMoreBtnEl.removeEventListener('click', onLoadMoreBtnClick);
+		} else {
+			loadMoreBtnEl.classList.remove('is-hidden');
 		}
+
+		loaderEl.classList.add('is-hidden');
 	} catch (err) {
 		console.log(err);
 	}
